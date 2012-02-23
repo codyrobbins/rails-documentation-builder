@@ -1,6 +1,6 @@
 # Use RVM.
 source ~/.rvm/scripts/rvm
-rvm use 1.9.2@rails_documentation_builder
+rvm use 1.9.2@rails-documentation-builder
 
 # Check out the Rails repository.
 if [[ ! -e rails ]]; then
@@ -8,12 +8,16 @@ if [[ ! -e rails ]]; then
 fi
 
 # Create the output directory.
-mkdir output
+mkdir -p output
 cd rails
+
+# Fetch new tags.
+git pull
 
 # For each tag...
 for tag in `git tag`; do
-  directory=output/$tag
+  version=${tag:1}
+  directory=output/$version
 
   # If documentation hasn't already been generated for this tag...
   if [[ ! -e $directory ]]; then
@@ -32,7 +36,7 @@ for tag in `git tag`; do
 
     # Generate the documentation.
     cd ..
-    sdoc --output $directory --exclude '.*/test/.*' --exclude '.*/examples/.*' --exclude '.*/guides/.*' --main rails/$main --title "Ruby on Rails $tag Documentation" rails
+    sdoc --output $directory --exclude '.*/test/.*' --exclude '.*/examples/.*' --exclude '.*/guides/.*' --main rails/$main --title "Ruby on Rails $version Documentation" rails
     cd rails
   fi
 done
