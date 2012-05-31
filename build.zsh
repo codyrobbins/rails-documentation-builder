@@ -9,21 +9,25 @@ fi
 
 # Create the output directory.
 mkdir -p output
-cd rails
 
 # Fetch new tags.
+cd rails
 git pull
+tags=`git tag`
+cd ..
 
 # For each tag...
-for tag in `git tag`; do
+for tag in $tags; do
   version=${tag:1}
   directory=output/$version
 
   # If documentation hasn't already been generated for this tag...
   if [[ ! -e $directory ]]; then
     # Check out the tag.
+    cd rails
     git checkout master
     git checkout $tag
+    cd ..
 
     # Figure out which readme to use as this version's main file.
     if [[ -e README.rdoc ]]; then
@@ -35,8 +39,6 @@ for tag in `git tag`; do
     fi
 
     # Generate the documentation.
-    cd ..
     sdoc --output $directory --exclude '.*/test/.*' --exclude '.*/examples/.*' --exclude '.*/guides/.*' --main rails/$main --title "Ruby on Rails $version Documentation" rails
-    cd rails
   fi
 done
