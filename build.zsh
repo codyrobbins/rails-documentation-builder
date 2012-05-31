@@ -12,8 +12,10 @@ mkdir -p output
 
 # Fetch new tags.
 cd rails
+
 git pull
 tags=`git tag`
+
 cd ..
 
 # For each tag...
@@ -25,9 +27,9 @@ for tag in $tags; do
   if [[ ! -e $directory ]]; then
     # Check out the tag.
     cd rails
+
     git checkout master
     git checkout $tag
-    cd ..
 
     # Figure out which readme to use as this version's main file.
     if [[ -e README.rdoc ]]; then
@@ -37,6 +39,8 @@ for tag in $tags; do
     elif [[ -e railties/README ]]; then
       main=railties/README
     fi
+
+    cd ..
 
     # Generate the documentation.
     sdoc --output $directory --exclude '.*/test/.*' --exclude '.*/examples/.*' --exclude '.*/guides/.*' --main rails/$main --title "Ruby on Rails $version Documentation" rails
