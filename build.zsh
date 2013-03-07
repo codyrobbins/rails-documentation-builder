@@ -1,6 +1,5 @@
 # Use RVM.
 source ~/.rvm/scripts/rvm
-rvm use 1.9.2@rails-documentation-builder
 
 # Check out the Rails repository.
 if [[ ! -e rails ]]; then
