@@ -1,6 +1,9 @@
 # Use RVM.
 source ~/.rvm/scripts/rvm
 
+# Install gems.
+bundle install
+
 # Check out the Rails repository.
 if [[ ! -e rails ]]; then
   git clone git://github.com/rails/rails.git
