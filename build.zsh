@@ -16,6 +16,7 @@ mkdir -p output
 cd rails
 
 git checkout master
+git fetch --tags
 git pull
 
 # For each tag...
@@ -24,13 +25,15 @@ for tag in `git tag`; do
   directory=output/$version
 
   # If documentation hasn't already been generated for this tag...
-  if [[ ! -e $directory ]]; then
+  if [[ ! -e ../$directory ]]; then
     # Check out the tag.
     git checkout $tag
 
     # Figure out which readme to use as this version's main file.
     if [[ -e README.rdoc ]]; then
       main=README.rdoc
+    elif [[ -e railties/RDOC_MAIN.rdoc ]]; then
+      main=railties/RDOC_MAIN.rdoc
     elif [[ -e railties/README.rdoc ]]; then
       main=railties/README.rdoc
     elif [[ -e railties/README ]]; then
